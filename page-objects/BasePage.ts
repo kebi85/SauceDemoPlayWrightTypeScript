@@ -3,10 +3,12 @@ import { Page, expect } from "@playwright/test";
 export abstract class BasePage {
     page: Page;
     url: string;
+    title: string;
 
     constructor(page: Page) {
         this.page = page;
         this.url = '';
+        this.title = '';
     }
 
     abstract isLoadedAsExpected(): Promise<void>;
@@ -20,12 +22,26 @@ export abstract class BasePage {
         await this.page.waitForLoadState('networkidle');
     }
 
-    async verifyTitle(expectedTitle: string) {
-        await expect(this.page).toHaveTitle(expectedTitle);
+    async waitForUrl(urlPattern?: string | RegExp) {
+        const targetUrl = urlPattern || this.url;
+        
+        // Ако е string и не е regex, правим го по-гъвкав за параметри
+        if (typeof targetUrl === 'string' && !targetUrl.includes('*')) {
+            // Добавяме wildcard за query parameters
+            const flexibleUrl = targetUrl.includes('?') ? targetUrl : `${targetUrl}*`;
+            await this.page.waitForURL(flexibleUrl);
+        } else {
+            await this.page.waitForURL(targetUrl);
+        }
     }
 
-    async verifyUrl(urlPattern: string | RegExp) {
-        await expect(this.page).toHaveURL(urlPattern);
+    async verifyTitle() {
+        await expect(this.page).toHaveTitle(this.title);
+    }
+
+    async verifyUrl(urlPattern?: string | RegExp) {
+        const targetUrl = urlPattern || this.url;
+        await expect(this.page).toHaveURL(targetUrl);
     }
 
     async takeScreenshot(name: string) {
