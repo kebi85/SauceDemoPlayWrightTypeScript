@@ -3,6 +3,7 @@ import { BasePage } from "./BasePage";
 
 export class LoginPage extends BasePage {
     url = 'https://www.saucedemo.com/';
+    title = 'Swag Labs';
     userNameInput: Locator;
     passwordInput: Locator;
     loginButton: Locator;
@@ -18,7 +19,8 @@ export class LoginPage extends BasePage {
 
     async isLoadedAsExpected() {
         await this.waitForPageLoad();
-        await this.page.waitForURL(this.url);
+        await this.waitForUrl();
+        await this.verifyTitle();
         await expect(this.userNameInput).toBeVisible();
         await expect(this.passwordInput).toBeVisible();
         await expect(this.loginButton).toBeVisible();
