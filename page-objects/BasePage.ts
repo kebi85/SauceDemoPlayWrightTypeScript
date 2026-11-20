@@ -1,4 +1,4 @@
-import { Page, expect } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 
 export abstract class BasePage {
     page: Page;
@@ -13,6 +13,10 @@ export abstract class BasePage {
 
     abstract isLoadedAsExpected(): Promise<void>;
 
+    getById(id: string): Locator {
+        return this.page.locator(`[id="${id}"]`);
+    }
+
     async goto() {
         await this.page.goto(this.url);
         await this.waitForPageLoad();
@@ -25,7 +29,6 @@ export abstract class BasePage {
     async waitForUrl(urlPattern?: string | RegExp) {
         const targetUrl = urlPattern || this.url;
         
-        // Ако е string и не е regex, правим го по-гъвкав за параметри
         if (typeof targetUrl === 'string' && !targetUrl.includes('*')) {
             // Добавяме wildcard за query parameters
             const flexibleUrl = targetUrl.includes('?') ? targetUrl : `${targetUrl}*`;
