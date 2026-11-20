@@ -11,9 +11,9 @@ export class LoginPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.userNameInput = page.locator("#user-name");
-        this.passwordInput = page.locator("#password");
-        this.loginButton = page.locator("#login-button");
+        this.userNameInput = this.getById("user-name");
+        this.passwordInput = this.getById("password");
+        this.loginButton = this.getById("login-button");
         this.errorMessage = page.locator("#login_button_container .error-message-container h3");
     }
 

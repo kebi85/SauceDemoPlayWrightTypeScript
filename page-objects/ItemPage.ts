@@ -14,8 +14,8 @@ export class ItemPage extends SauceBasePage {
     constructor(page: Page) {
         super(page);
         this.itemName = page.locator('.inventory_details_name');
-        this.backToProductsBtn = page.locator('#back-to-products');
-        this.addToCartBtn = page.locator("#add-to-cart");
+        this.backToProductsBtn = this.getById('back-to-products');
+        this.addToCartBtn = this.getById('add-to-cart');
         this.price = page.locator('.inventory_details_price');
     }
 

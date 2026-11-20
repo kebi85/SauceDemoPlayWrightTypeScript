@@ -10,8 +10,8 @@ export class SauceBasePage extends BasePage {
 
     constructor(page: Page) {
         super(page)
-        this.basketBtn = page.locator("#shopping_cart_container");
-        this.burgerMenu = page.locator("#react-burger-menu-btn")
+        this.basketBtn = this.getById("shopping_cart_container");
+        this.burgerMenu =this.getById("react-burger-menu-btn")
         this.twitterBtn = page.locator(".social_twitter");
         this.facebookBtn = page.locator(".social_facebook");
         this.linkedinBtn = page.locator(".social_linkedin");
