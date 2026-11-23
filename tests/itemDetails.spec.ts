@@ -1,15 +1,13 @@
 import { PageObjectManager } from "../page-objects/PageObjectManager";
-import { Users } from "../test-data/users";
 import { test, expect } from '@playwright/test';
 
 test.describe('Item details page tests', () => {
     test('validate item details page', async ({page}) => {
         const pageObjectManager = new PageObjectManager(page);
 
-        const loginPage = pageObjectManager.getLoginPage();
-        await loginPage.goto();
-        await loginPage.login(Users.standard.username, Users.standard.password);
+        // Вече сме логнати (globalSetup + storageState) — отиваме директно на продуктите
         const inventoryPage = pageObjectManager.getInventoryPage();
+        await inventoryPage.goto();
         const inventoryNames: string[] = await inventoryPage.getAllInventoryItemNames();
         const inventoryPrices: string[] = await inventoryPage.getAllInventoryItemPrices();
         await inventoryPage.clickInventoryItemName(0);
@@ -26,11 +24,9 @@ test.describe('Item details page tests', () => {
     test ('add item to cart form details page', async ({page}) => {
         const pageObjectManager = new PageObjectManager(page);
 
-        const loginPage = pageObjectManager.getLoginPage();
-        await loginPage.goto();
-        await loginPage.login(Users.standard.username, Users.standard.password);
-
+        // Вече сме логнати (globalSetup + storageState) — отиваме директно на продуктите
         const inventoryPage = pageObjectManager.getInventoryPage();
+        await inventoryPage.goto();
         const inventoryNames: string[] = await inventoryPage.getAllInventoryItemNames();
         const inventoryPrices: string[] = await inventoryPage.getAllInventoryItemPrices();
         await inventoryPage.clickInventoryItemName(0);

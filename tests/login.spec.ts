@@ -4,7 +4,10 @@ import { Users } from '../test-data/users';
 import { ErrorMessages } from '../test-data/errorMessages';
 import { NegativeLoginCases } from '../test-data/negativeLoginCases';
 
-test.describe('Login tests', () => { 
+test.describe('Login tests', () => {
+  // Login тестовете трябва да започват НЕлогнати — изключваме storageState от globalSetup
+  test.use({ storageState: { cookies: [], origins: [] } });
+
   test('login successfully', async ({ page }) => {
     const pageObjectManager = new PageObjectManager(page);
 

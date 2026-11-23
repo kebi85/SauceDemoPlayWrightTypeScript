@@ -36,9 +36,20 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    /* 1. Setup project — пуска само tests/auth.setup.ts (login + запис на сесията) */
+    {
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
+    },
+
+    /* 2. Истинските тестове — чакат setup да мине и започват вече логнати */
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: '.auth/user.json',
+      },
+      dependencies: ['setup'],
     },
 
     // {
