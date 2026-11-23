@@ -20,7 +20,6 @@ export class ItemPage extends SauceBasePage {
     }
 
     async isLoadedAsExpected() {
-        await this.waitForPageLoad();
         await this.waitForUrl();
         await this.verifyTitle();
         await expect(this.itemName).toBeVisible();

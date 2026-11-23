@@ -19,11 +19,6 @@ export abstract class BasePage {
 
     async goto() {
         await this.page.goto(this.url);
-        await this.waitForPageLoad();
-    }
-
-    async waitForPageLoad() {
-        await this.page.waitForLoadState('networkidle');
     }
 
     async waitForUrl(urlPattern?: string | RegExp) {

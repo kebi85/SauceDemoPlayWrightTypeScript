@@ -18,7 +18,6 @@ export class LoginPage extends BasePage {
     }
 
     async isLoadedAsExpected() {
-        await this.waitForPageLoad();
         await this.waitForUrl();
         await this.verifyTitle();
         await expect(this.userNameInput).toBeVisible();
