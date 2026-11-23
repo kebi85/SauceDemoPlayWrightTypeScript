@@ -3,7 +3,7 @@ import { SauceBasePage } from "./SauceBasePage";
 
 
 export class ItemPage extends SauceBasePage {
-    url = 'https://www.saucedemo.com/inventory-item.html*'; // Добавяме * за параметри
+    url = '/inventory-item.html*'; // Добавяме * за параметри
     title = 'Swag Labs';
     backToProductsBtn: Locator;
     itemName: Locator;

@@ -2,7 +2,7 @@ import { Locator, Page, expect } from "@playwright/test";
 import { SauceBasePage } from "./SauceBasePage";
 
 export class InventoryPage extends SauceBasePage {
-    url = 'https://www.saucedemo.com/inventory.html';
+    url = '/inventory.html';
     title = 'Swag Labs';
     productsTitle: Locator;
     inventoryItemNames: Locator;

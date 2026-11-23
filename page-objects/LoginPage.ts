@@ -2,7 +2,7 @@ import { Locator, Page, expect } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 export class LoginPage extends BasePage {
-    url = 'https://www.saucedemo.com/';
+    url = '/';
     title = 'Swag Labs';
     userNameInput: Locator;
     passwordInput: Locator;

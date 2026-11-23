@@ -2,7 +2,7 @@ import { Locator,Page, expect } from "@playwright/test";
 import { SauceBasePage } from "./SauceBasePage";
 
 export class CartPage extends SauceBasePage {
-    url = 'https://www.saucedemo.com/cart.html';
+    url = '/cart.html';
     title = 'Swag Labs';
     itemNames: Locator;
     addedItemNames: string[] = [];
