@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "prepare": "git config core.hooksPath .githooks || exit 0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

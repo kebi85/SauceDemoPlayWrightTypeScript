@@ -1,39 +1,35 @@
 #!/bin/sh
-# Ако commit съобщението завършва на "--built" -> push + стартира build в Jenkins.
-# Настройки: .jenkins.env (не се commit-ва), виж .jenkins.env.example
-
 MSG=$(git log -1 --pretty=%B | sed -e 's/[[:space:]]*$//' | sed -e '/^$/d' | tail -n 1)
 case "$MSG" in
-  *--built) ;;
+  *--build) ;;
   *) exit 0 ;;
 esac
 
 ROOT=$(git rev-parse --show-toplevel)
 ENV_FILE="$ROOT/.jenkins.env"
 if [ ! -f "$ENV_FILE" ]; then
-  echo "[jenkins] Липсва $ENV_FILE - build не е стартиран." >&2
+  echo "[jenkins] Missing $ENV_FILE - build not started." >&2
   exit 0
 fi
 . "$ENV_FILE"
 
 if [ -z "$JENKINS_URL" ] || [ -z "$JENKINS_JOB" ] || [ -z "$JENKINS_USER" ] || [ -z "$JENKINS_TOKEN" ]; then
-  echo "[jenkins] Попълни JENKINS_URL, JENKINS_JOB, JENKINS_USER, JENKINS_TOKEN в .jenkins.env" >&2
+  echo "[jenkins] Set JENKINS_URL, JENKINS_JOB, JENKINS_USER, JENKINS_TOKEN in .jenkins.env" >&2
   exit 0
 fi
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-echo "[jenkins] Push на '$BRANCH'..."
+echo "[jenkins] Pushing '$BRANCH'..."
 if ! git push origin "$BRANCH"; then
-  echo "[jenkins] Push-ът не успя - build не е стартиран." >&2
+  echo "[jenkins] Push failed - build not started." >&2
   exit 0
 fi
 
-# Обикновен pipeline: /job/<име>/build ; multibranch: JENKINS_JOB="<име>/job/<branch>"
 URL="${JENKINS_URL%/}/job/$JENKINS_JOB/build"
-echo "[jenkins] Стартирам build: $URL"
+echo "[jenkins] Triggering build: $URL"
 CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST -u "$JENKINS_USER:$JENKINS_TOKEN" "$URL")
 case "$CODE" in
-  200|201) echo "[jenkins] Build-ът е пуснат в опашката." ;;
-  *) echo "[jenkins] Грешка: HTTP $CODE" >&2 ;;
+  200|201) echo "[jenkins] Build queued." ;;
+  *) echo "[jenkins] Error: HTTP $CODE" >&2 ;;
 esac
 exit 0

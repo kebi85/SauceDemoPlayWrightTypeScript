@@ -25,3 +25,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Jenkins credentials
+.jenkins.env
